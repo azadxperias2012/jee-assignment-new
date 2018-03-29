@@ -6,7 +6,7 @@
 		
 		<div class="row">
   			<div class="col-md-6 column-container">
-  				<form action="/login" method="post">
+				<form action="<spring:url value="/login"/>" method="post">
 					<div class="form-group">
 						<input type="text" class="form-control" name="email"
 							placeholder="EMAIL">

@@ -41,6 +41,11 @@ body {
 	text-transform: uppercase;
 }
 
+.button-app:hover {
+	background-color: transparent;
+	color: black;
+}
+
 .button-black {
 	background-color: black;
 }
@@ -51,4 +56,8 @@ body {
 
 .button-facebook {
 	background-color: #3b5998;
+}
+
+.full-height {
+	height: 100%;
 }

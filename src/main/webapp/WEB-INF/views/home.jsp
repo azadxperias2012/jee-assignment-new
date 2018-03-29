@@ -1,10 +1,8 @@
 <%@ include file="../common/header.jspf"%>
-	<div class="container">
+	<div class="container full-height">
 		<h1>
-			Hello world!  
+			Hello world! ${user.email}  
 		</h1>
-		
-		<p>  The time on the server is ${serverTime}. </p>
 	</div>
 
 <%@ include file="../common/footer.jspf"%>
