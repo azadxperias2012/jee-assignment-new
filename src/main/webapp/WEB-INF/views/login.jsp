@@ -4,7 +4,7 @@
 		<div class="text-center text-uppercase"><strong>Sign In</strong></div>
 		<div class="text-center text-uppercase text-suplement">Not Registered? Sign Up</div>
 		
-		<div class="row">
+		<div class="row row-login">
   			<div class="col-md-6 column-container">
 				<form action="<spring:url value="/login"/>" method="post">
 					<div class="form-group">
