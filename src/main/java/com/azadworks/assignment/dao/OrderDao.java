@@ -1,19 +1,16 @@
 package com.azadworks.assignment.dao;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.azadworks.assignment.dao.mapper.ItemRowMapper;
 import com.azadworks.assignment.dao.mapper.OrderRowMapper;
-import com.azadworks.assignment.dao.mapper.UserRowMapper;
 import com.azadworks.assignment.model.Item;
 import com.azadworks.assignment.model.Order;
-import com.azadworks.assignment.model.User;
 
 @Repository
 public class OrderDao {
@@ -54,13 +51,23 @@ public class OrderDao {
 		
 		List<Order> orders = jdbcTemplate.query(sql, new OrderRowMapper());
 		
-		int i = 2;
 		for (Order order : orders) {
-			order.setItems(getItems(i++));
+			order.setItems(getItems(order.getOrderId()));
 			order.setOrderTotal(getOrderTotal(order.getItems()));
 		}
 		
 		return orders;
+	}
+	
+	private List<Item> getItems(String orderId) {
+		String sql = "SELECT ITEM.ItemName AS itemName, ITEM.ItemDescription AS itemDescription, ITEM.ItemSeller AS itemSeller, "
+				+ "ITEM.Price AS price, ITEM.Offers AS offers, ORDER_DETAILS.ItemDeliveryStatus AS itemDeliveryStatus, "
+				+ "DATE_FORMAT(ORDER_DETAILS.ItemDeliveryDate, \"%a, %b %D '%y\") AS deliveredDate "
+				+ "FROM ORDER_DETAILS INNER JOIN ITEM ON ORDER_DETAILS.ItemId=ITEM.id AND ORDER_DETAILS.OrderId = \'"
+				+ orderId + "\'";
+		
+		List<Item> items = jdbcTemplate.query(sql, new ItemRowMapper());
+		return items;
 	}
 	
 	private Integer getOrderTotal(List<Item> items) {
