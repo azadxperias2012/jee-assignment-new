@@ -24,6 +24,6 @@
 	7. Login with valid user email and password. Refer db scripts (username: azad@invalid.com, password: Welcome1).
 	8. User order details can be viewed once the login is successful.
 	
-## CAVEATS
+## Caveats
 1. Couldn't implement Spring Security because of limited expertise in Security.
 2. Couldn't able to write unit test cases because of shortage of time.
