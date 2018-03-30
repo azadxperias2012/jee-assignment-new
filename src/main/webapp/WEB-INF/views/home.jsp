@@ -1,5 +1,6 @@
 <%@ include file="../common/header.jspf"%>
 	<div class="container full-height">
+		<h1 class="text-right" style="padding-bottom:5px;">Welcome ${userEmail}</h1>
 		<c:forEach items="${orders}" var="order">
 			<div class="panel panel-default">
 			  <div class="panel-heading">

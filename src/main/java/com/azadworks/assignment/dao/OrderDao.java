@@ -4,32 +4,62 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.azadworks.assignment.dao.mapper.OrderRowMapper;
+import com.azadworks.assignment.dao.mapper.UserRowMapper;
 import com.azadworks.assignment.model.Item;
 import com.azadworks.assignment.model.Order;
 import com.azadworks.assignment.model.User;
 
 @Repository
 public class OrderDao {
+	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
-	public List<Order> getOrders(User user) {
-		List<Order> orders = new ArrayList<Order>();
-		Order order1 = new Order();
-		order1.setOrderId("OD1111");
-		order1.setOrderedDate("Mon, Jan 15th '18");
-		order1.setOrderTotal(100);
-		order1.setItems(getItems(2));
-		order1.setOrderTotal(getOrderTotal(order1.getItems()));
+//	public List<Order> getOrders(int userId) {
+//		List<Order> orders = new ArrayList<Order>();
+//		Order order1 = new Order();
+//		order1.setOrderId("OD1111");
+//		order1.setOrderedDate("Mon, Jan 15th '18");
+//		order1.setOrderTotal(100);
+//		order1.setItems(getItems(2));
+//		order1.setOrderTotal(getOrderTotal(order1.getItems()));
+//		
+//		Order order2 = new Order();
+//		order2.setOrderId("OD2222");
+//		order2.setOrderedDate("Mon, Jan 22th '18");
+//		order2.setItems(getItems(3));
+//		order2.setOrderTotal(getOrderTotal(order2.getItems()));
+//		
+//		orders.add(order1);
+//		orders.add(order2);
+//		return orders;
+//	}
+	
+	public List<Order> getOrders(int userId) {
+		/*
+		try {
+		} catch (DataAccessException ex) {
+			System.out.println("User not present.");
+		}
+		 */
 		
-		Order order2 = new Order();
-		order2.setOrderId("OD2222");
-		order2.setOrderedDate("Mon, Jan 22th '18");
-		order2.setItems(getItems(3));
-		order2.setOrderTotal(getOrderTotal(order2.getItems()));
+		String sql = "SELECT id As orderId, DATE_FORMAT(OrderDate, \"%a, %b %D '%y\") AS orderedDate FROM USER_ACCOUNT WHERE UserID = "
+				+ userId;
 		
-		orders.add(order1);
-		orders.add(order2);
+		List<Order> orders = jdbcTemplate.query(sql, new OrderRowMapper());
+		
+		int i = 2;
+		for (Order order : orders) {
+			order.setItems(getItems(i++));
+			order.setOrderTotal(getOrderTotal(order.getItems()));
+		}
+		
 		return orders;
 	}
 	

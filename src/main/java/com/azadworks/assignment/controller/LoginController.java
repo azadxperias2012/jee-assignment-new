@@ -37,15 +37,15 @@ public class LoginController {
 	public String handleLoginRequest(@RequestParam String email, @RequestParam String password,
 			Model model) {
 		logger.info("handling login request");
-		if (!service.isUserValid(email, password)) {
+		int userId = service.getValidUser(email, password);
+		if (userId == -1) {
 			return "redirect:/login";
 		} else {
-			User user = new User();
-			user.setId(1);
-			user.setEmail(email);
-			List<Order> orders = orderService.getOrders(user);
+			model.addAttribute("userId", userId);
+			model.addAttribute("userEmail", email);
+			List<Order> orders = orderService.getOrders(userId);
 			model.addAttribute("orders", orders);
-			model.addAttribute("user", user);
+			
 		}
 		return "home";
 	}
