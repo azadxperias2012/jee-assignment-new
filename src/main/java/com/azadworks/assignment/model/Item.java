@@ -9,7 +9,7 @@ public class Item {
 	private Integer offers;
 	private String itemDeliveryDate;
 	private String itemDeliveryStatus;
-	
+
 	public Item() {
 	}
 

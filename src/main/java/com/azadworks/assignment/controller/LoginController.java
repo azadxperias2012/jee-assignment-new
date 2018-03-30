@@ -18,24 +18,23 @@ import com.azadworks.assignment.service.OrderService;
 
 @Controller
 public class LoginController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
+
 	@Autowired
 	LoginService service;
-	
+
 	@Autowired
 	OrderService orderService;
 
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginPage() {
 		logger.info("Showing login page.");
 		return "login";
 	}
 
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String handleLoginRequest(@RequestParam String email, @RequestParam String password,
-			Model model) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String handleLoginRequest(@RequestParam String email, @RequestParam String password, Model model) {
 		logger.info("handling login request");
 		int userId = service.getValidUser(email, password);
 		if (userId == -1) {
@@ -45,7 +44,7 @@ public class LoginController {
 			model.addAttribute("userEmail", email);
 			List<Order> orders = orderService.getOrders(userId);
 			model.addAttribute("orders", orders);
-			
+
 		}
 		return "home";
 	}
